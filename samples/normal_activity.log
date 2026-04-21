@@ -1,0 +1,6 @@
+Jan 12 09:00:10 host sshd[2100]: Accepted password for alice from 192.168.1.25 port 51420 ssh2
+Jan 12 09:05:43 host sshd[2101]: Failed password for bob from 192.168.1.30 port 51421 ssh2
+Jan 12 09:08:10 host sshd[2102]: Accepted password for bob from 192.168.1.30 port 51422 ssh2
+Jan 12 09:20:17 host sshd[2103]: Accepted password for charlie from 192.168.1.31 port 51423 ssh2
+Jan 12 09:45:02 host sshd[2104]: Failed password for invalid user test from 198.51.100.44 port 51424 ssh2
+Jan 12 10:10:44 host sshd[2105]: Accepted password for diana from 192.168.1.40 port 51425 ssh2

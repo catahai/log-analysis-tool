@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="720" viewBox="0 0 1000 720" role="img" aria-labelledby="title desc">
+  <title id="title">CLI summary screenshot</title>
+  <desc id="desc">Terminal-style screenshot showing the log analysis summary for suspicious SSH activity.</desc>
+  <rect width="1000" height="720" fill="#0b1220"/>
+  <rect x="32" y="32" width="936" height="656" rx="18" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <circle cx="68" cy="66" r="8" fill="#f87171"/>
+  <circle cx="92" cy="66" r="8" fill="#fbbf24"/>
+  <circle cx="116" cy="66" r="8" fill="#34d399"/>
+  <text x="144" y="72" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="20">python3 -m log_analysis_tool.main samples/suspicious_activity.log --year 2026</text>
+  <g fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="24">
+    <text x="64" y="130">Log Analysis Summary</text>
+    <text x="64" y="164">====================</text>
+    <text x="64" y="210">Total events processed : 9</text>
+    <text x="64" y="246">Failed logins          : 8</text>
+    <text x="64" y="282">Successful logins      : 1</text>
+    <text x="64" y="318">Total alerts           : 2</text>
+    <text x="64" y="378">Alerts by Type</text>
+    <text x="96" y="414">- brute_force: 1</text>
+    <text x="96" y="450">- success_after_failures: 1</text>
+    <text x="64" y="510">Alerts by Severity</text>
+    <text x="96" y="546">- medium: 1</text>
+    <text x="96" y="582">- high: 1</text>
+    <text x="560" y="378">Top Offending IPs</text>
+    <text x="592" y="414">- 203.0.113.10: 5 failed login(s)</text>
+    <text x="592" y="450">- 198.51.100.20: 3 failed login(s)</text>
+    <text x="560" y="510">Alerts</text>
+    <text x="560" y="546">[MEDIUM] brute_force ip=203.0.113.10 count=5</text>
+    <text x="560" y="582">[HIGH] success_after_failures ip=203.0.113.10</text>
+    <text x="560" y="618">JSON export: output/alerts.json</text>
+    <text x="560" y="654">CSV export: output/alerts.csv</text>
+  </g>
+</svg>

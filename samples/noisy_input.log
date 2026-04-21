@@ -1,0 +1,6 @@
+Jan 12 11:00:00 host sshd[4000]: Failed password for admin from 203.0.113.50 port 53000 ssh2
+totally malformed line without syslog format
+Jan 12 11:01:00 host sshd[4001]: Failed password from 203.0.113.50
+Jan 12 11:02:00 host cron[22]: (root) CMD (run-parts /etc/cron.hourly)
+Jan 12 11:03:00 host sshd[4002]: Accepted password for analyst from 192.168.1.60 port 53001 ssh2
+random noise

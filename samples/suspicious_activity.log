@@ -1,0 +1,9 @@
+Jan 12 10:00:00 host sshd[3000]: Failed password for admin from 203.0.113.10 port 52000 ssh2
+Jan 12 10:01:00 host sshd[3001]: Failed password for admin from 203.0.113.10 port 52001 ssh2
+Jan 12 10:02:00 host sshd[3002]: Failed password for admin from 203.0.113.10 port 52002 ssh2
+Jan 12 10:03:00 host sshd[3003]: Failed password for admin from 203.0.113.10 port 52003 ssh2
+Jan 12 10:04:00 host sshd[3004]: Failed password for admin from 203.0.113.10 port 52004 ssh2
+Jan 12 10:06:00 host sshd[3005]: Accepted password for admin from 203.0.113.10 port 52005 ssh2
+Jan 12 10:20:00 host sshd[3006]: Failed password for guest from 198.51.100.20 port 52006 ssh2
+Jan 12 10:25:00 host sshd[3007]: Failed password for guest from 198.51.100.20 port 52007 ssh2
+Jan 12 10:35:00 host sshd[3007]: Failed password for guest from 198.51.100.20 port 52007 ssh2
