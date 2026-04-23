@@ -1,9 +1,20 @@
 from __future__ import annotations
 
 from collections import defaultdict, deque
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 from .models import Alert, AuthEvent, FAILED_LOGIN, SUCCESSFUL_LOGIN
+
+
+@dataclass(frozen=True)
+class DetectionConfig:
+    """Runtime configuration for the built-in detection rules."""
+
+    brute_force_threshold: int = 5
+    brute_force_window_minutes: int = 10
+    success_after_failures_threshold: int = 3
+    success_after_failures_window_minutes: int = 15
 
 
 def _trim_old_events(events: deque[AuthEvent], current_time: datetime, window: timedelta) -> None:
@@ -106,7 +117,25 @@ def detect_success_after_failures(
 def run_all_detectors(events: list[AuthEvent]) -> list[Alert]:
     """Run every detector and return alerts in a stable display order."""
 
+    return run_detectors(events, DetectionConfig())
+
+
+def run_detectors(events: list[AuthEvent], config: DetectionConfig) -> list[Alert]:
+    """Run every detector using the provided configuration."""
+
     alerts: list[Alert] = []
-    alerts.extend(detect_brute_force(events))
-    alerts.extend(detect_success_after_failures(events))
+    alerts.extend(
+        detect_brute_force(
+            events,
+            threshold=config.brute_force_threshold,
+            window_minutes=config.brute_force_window_minutes,
+        )
+    )
+    alerts.extend(
+        detect_success_after_failures(
+            events,
+            threshold=config.success_after_failures_threshold,
+            window_minutes=config.success_after_failures_window_minutes,
+        )
+    )
     return sorted(alerts, key=lambda alert: (alert.first_seen, alert.alert_type))

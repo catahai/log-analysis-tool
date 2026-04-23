@@ -3,6 +3,7 @@
 __all__ = [
     "charts",
     "cli",
+    "dashboard",
     "detectors",
     "exporters",
     "models",

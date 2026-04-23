@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log Analysis Tool Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+        margin: 0;
+        color: #111827;
+        background: #f8fafc;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      h1, h2 {
+        margin-bottom: 0.5rem;
+      }
+      p {
+        margin-top: 0;
+      }
+      .hero,
+      .summary,
+      .panel {
+        background: #ffffff;
+        border: 1px solid #dbe3ee;
+        border-radius: 10px;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      }
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+      }
+      .summary-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.9rem;
+        background: #f8fafc;
+      }
+      .summary-card h3 {
+        margin: 0 0 0.4rem;
+        font-size: 0.95rem;
+      }
+      .summary-card p {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.95rem;
+      }
+      th, td {
+        border: 1px solid #d1d5db;
+        padding: 0.65rem;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f3f4f6;
+      }
+      tbody tr:nth-child(even) {
+        background: #fafafa;
+      }
+      .table-wrapper {
+        overflow-x: auto;
+      }
+      .chart-grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .charts img {
+        display: block;
+        max-width: 100%;
+        border: 1px solid #d1d5db;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <h1>Log Analysis Tool Dashboard</h1>
+        <p>
+          Lightweight review page for generated alert CSV output and report charts.
+          The CLI remains the primary workflow; this dashboard is an optional read-only view.
+        </p>
+      </section>
+
+      <section class="summary">
+        <h2>Summary</h2>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <h3>Total Alerts</h3>
+            <p>{{ total_alerts }}</p>
+          </div>
+          {% if severity_counts %}
+            {% for severity, count in severity_counts %}
+              <div class="summary-card">
+                <h3>{{ severity|capitalize }} Severity</h3>
+                <p>{{ count }}</p>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="summary-card">
+              <h3>Status</h3>
+              <p>No alerts loaded</p>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Alerts</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Type</th>
+                <th>Severity</th>
+                <th>Source IP</th>
+                <th>Username</th>
+                <th>Count</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if alerts %}
+                {% for alert in alerts %}
+                  <tr>
+                    <td>{{ alert.timestamp }}</td>
+                    <td>{{ alert.alert_type }}</td>
+                    <td>{{ alert.severity }}</td>
+                    <td>{{ alert.source_ip }}</td>
+                    <td>{{ alert.username }}</td>
+                    <td>{{ alert.count }}</td>
+                    <td>{{ alert.description }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="7">No alert data found. Generate CSV output first.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel charts">
+        <h2>Charts</h2>
+        <div class="chart-grid">
+          {% if charts %}
+            {% for chart in charts %}
+              <img src="{{ url_for('chart', filename=chart) }}" alt="{{ chart }}">
+            {% endfor %}
+          {% else %}
+            <p>No charts found. Generate a report first.</p>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

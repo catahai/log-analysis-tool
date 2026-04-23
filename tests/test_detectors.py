@@ -1,6 +1,11 @@
 from datetime import datetime
 
-from log_analysis_tool.detectors import detect_brute_force, detect_success_after_failures
+from log_analysis_tool.detectors import (
+    DetectionConfig,
+    detect_brute_force,
+    detect_success_after_failures,
+    run_detectors,
+)
 from log_analysis_tool.models import AuthEvent, FAILED_LOGIN, SUCCESSFUL_LOGIN
 
 
@@ -135,3 +140,25 @@ def test_detect_success_after_failures_ignores_success_before_failures() -> None
     alerts = detect_success_after_failures(events)
 
     assert alerts == []
+
+
+def test_run_detectors_uses_custom_config() -> None:
+    events = [
+        build_event(0, FAILED_LOGIN),
+        build_event(1, FAILED_LOGIN),
+        build_event(2, FAILED_LOGIN),
+        build_event(3, SUCCESSFUL_LOGIN),
+    ]
+
+    alerts = run_detectors(
+        events,
+        DetectionConfig(
+            brute_force_threshold=10,
+            brute_force_window_minutes=10,
+            success_after_failures_threshold=2,
+            success_after_failures_window_minutes=5,
+        ),
+    )
+
+    assert len(alerts) == 1
+    assert alerts[0].alert_type == "success_after_failures"

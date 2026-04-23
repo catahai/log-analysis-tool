@@ -6,7 +6,7 @@ import sys
 
 from .charts import generate_charts
 from .cli import build_parser
-from .detectors import run_all_detectors
+from .detectors import DetectionConfig, run_detectors
 from .exporters import export_alerts_to_csv, export_alerts_to_json
 from .models import Alert, AuthEvent, FAILED_LOGIN, SUCCESSFUL_LOGIN
 from .parser import parse_auth_log_file
@@ -37,6 +37,17 @@ def _resolve_input_path(args) -> Path | None:
     """Resolve the input log path from positional or named CLI arguments."""
 
     return args.input_path or args.logfile
+
+
+def _build_detection_config(args) -> DetectionConfig:
+    """Create detector configuration from CLI arguments."""
+
+    return DetectionConfig(
+        brute_force_threshold=args.brute_force_threshold,
+        brute_force_window_minutes=args.brute_force_window,
+        success_after_failures_threshold=args.success_threshold,
+        success_after_failures_window_minutes=args.success_window,
+    )
 
 
 def _print_summary(events: list[AuthEvent], alerts: list[Alert]) -> None:
@@ -73,6 +84,7 @@ def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
     input_path = _resolve_input_path(args)
+    config = _build_detection_config(args)
 
     if input_path is None:
         parser.print_usage(sys.stderr)
@@ -85,7 +97,7 @@ def main() -> int:
 
     try:
         events = parse_auth_log_file(input_path, year=args.year)
-        alerts = run_all_detectors(events)
+        alerts = run_detectors(events, config)
         export_alerts_to_json(alerts, args.json_out)
         export_alerts_to_csv(alerts, args.csv_out)
         chart_paths = generate_charts(alerts, events, args.report_dir) if args.generate_report else []

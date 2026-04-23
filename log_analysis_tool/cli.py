@@ -54,4 +54,28 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("output/report"),
         help="Directory for generated chart files",
     )
+    parser.add_argument(
+        "--brute-force-threshold",
+        type=int,
+        default=5,
+        help="Failed login count required to trigger the brute-force rule",
+    )
+    parser.add_argument(
+        "--brute-force-window",
+        type=int,
+        default=10,
+        help="Time window in minutes for the brute-force rule",
+    )
+    parser.add_argument(
+        "--success-threshold",
+        type=int,
+        default=3,
+        help="Failed login count required before a success triggers the follow-on rule",
+    )
+    parser.add_argument(
+        "--success-window",
+        type=int,
+        default=15,
+        help="Time window in minutes for the success-after-failures rule",
+    )
     return parser
