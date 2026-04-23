@@ -178,12 +178,4 @@ Top Offending IPs
 - Package the tool with a `console_scripts` entry point for cleaner invocation
 - Add an optional lightweight Flask dashboard on top of the existing CLI output
 
----
 
-## Interview Talking Points
-
-- Why structured parsing needs to happen before any alerting logic
-- How rolling time windows enable simple but meaningful behavioural detections
-- Why false positives and log quality are central concerns in security monitoring
-- How the test suite covers edge cases including malformed lines, empty files, and threshold boundaries
-- How this project could extend into a broader log analysis pipeline or SIEM enrichment workflow
