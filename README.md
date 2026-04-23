@@ -196,8 +196,6 @@ Report charts:
 - skips unsupported and malformed lines without separate parse warnings
 - keeps the dashboard optional and read-only instead of making it the main interface
 
-## Why This Works as a Portfolio Project
-
 ## Potential Improvements
 
 - Support additional SSH event types (e.g. public-key authentication)
