@@ -1,6 +1,6 @@
 # log-analysis-tool
 
-A Python command-line tool that parses Linux `auth.log` SSH authentication events and flags suspicious patterns. Built as an entry-level cybersecurity portfolio project — small enough to walk through clearly in an interview, but practical enough to demonstrate real SOC-adjacent skills: structured log parsing, rule-based detection, edge-case testing, and exportable results.
+A Python command-line tool that parses Linux `auth.log` SSH authentication events and flags suspicious patterns. Built an entry-level cybersecurity portfolio project, practical enough to demonstrate real SOC-adjacent skills: structured log parsing, rule-based detection, edge-case testing, and exportable results.
 
 ---
 
