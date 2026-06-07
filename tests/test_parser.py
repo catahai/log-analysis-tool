@@ -18,6 +18,7 @@ def test_parse_failed_password_line() -> None:
     assert event.username == "admin"
     assert event.source_ip == "192.168.1.10"
     assert event.event_type == FAILED_LOGIN
+    assert event.is_invalid_user is True
 
 
 def test_parse_successful_password_line() -> None:
@@ -33,6 +34,7 @@ def test_parse_successful_password_line() -> None:
     assert event.username == "alice"
     assert event.source_ip == "192.168.1.10"
     assert event.event_type == SUCCESSFUL_LOGIN
+    assert event.is_invalid_user is False
 
 
 def test_ignore_non_ssh_auth_lines() -> None:

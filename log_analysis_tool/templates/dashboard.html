@@ -53,6 +53,30 @@
         font-size: 1.25rem;
         font-weight: bold;
       }
+      .summary-lists {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .summary-list {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.9rem 1rem;
+        background: #ffffff;
+      }
+      .summary-list h3 {
+        margin-top: 0;
+        margin-bottom: 0.65rem;
+        font-size: 1rem;
+      }
+      .summary-list ul {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+      .summary-list li {
+        margin-bottom: 0.3rem;
+      }
       table {
         border-collapse: collapse;
         width: 100%;
@@ -115,6 +139,32 @@
               <p>No alerts loaded</p>
             </div>
           {% endif %}
+        </div>
+        <div class="summary-lists">
+          <div class="summary-list">
+            <h3>Alert Types</h3>
+            <ul>
+              {% if alert_type_counts %}
+                {% for alert_type, count in alert_type_counts %}
+                  <li>{{ alert_type }}: {{ count }}</li>
+                {% endfor %}
+              {% else %}
+                <li>No alert data loaded.</li>
+              {% endif %}
+            </ul>
+          </div>
+          <div class="summary-list">
+            <h3>Top Offending IPs</h3>
+            <ul>
+              {% if top_offending_ips %}
+                {% for ip_address, count in top_offending_ips %}
+                  <li>{{ ip_address }}: {{ count }}</li>
+                {% endfor %}
+              {% else %}
+                <li>No offending IPs available.</li>
+              {% endif %}
+            </ul>
+          </div>
         </div>
       </section>
 

@@ -9,9 +9,9 @@ def test_dashboard_displays_summary_alerts_and_charts(tmp_path: Path) -> None:
     report_dir = tmp_path / "report"
     report_dir.mkdir()
     for filename in [
-        "alerts_by_type.svg",
-        "top_offending_ips.svg",
-        "failed_logins_over_time.svg",
+        "alerts-by-type.svg",
+        "top-offending-ips.svg",
+        "failed-logins-over-time.svg",
     ]:
         (report_dir / filename).write_text("<svg></svg>", encoding="utf-8")
 
@@ -56,4 +56,6 @@ def test_dashboard_displays_summary_alerts_and_charts(tmp_path: Path) -> None:
     assert "Medium Severity" in text
     assert "brute_force" in text
     assert "203.0.113.10" in text
-    assert "failed_logins_over_time.svg" in text
+    assert "failed-logins-over-time.svg" in text
+    assert "Alert Types" in text
+    assert "Top Offending IPs" in text

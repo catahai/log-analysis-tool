@@ -1,0 +1,94 @@
+[
+  {
+    "alert_type": "brute_force",
+    "severity": "medium",
+    "source_ip": "203.0.113.10",
+    "event_count": 5,
+    "first_seen": "2026-01-12 10:00:00",
+    "last_seen": "2026-01-12 10:04:00",
+    "username": "admin",
+    "description": "5 failed logins from 203.0.113.10 within 10 minutes",
+    "reasoning": "The IP reached the brute-force threshold of 5 failed logins inside a 10-minute window.",
+    "related_events": [
+      "Jan 12 10:00:00 host sshd[3000]: Failed password for admin from 203.0.113.10 port 52000 ssh2",
+      "Jan 12 10:01:00 host sshd[3001]: Failed password for admin from 203.0.113.10 port 52001 ssh2",
+      "Jan 12 10:02:00 host sshd[3002]: Failed password for admin from 203.0.113.10 port 52002 ssh2",
+      "Jan 12 10:03:00 host sshd[3003]: Failed password for admin from 203.0.113.10 port 52003 ssh2",
+      "Jan 12 10:04:00 host sshd[3004]: Failed password for admin from 203.0.113.10 port 52004 ssh2"
+    ],
+    "timestamp": "2026-01-12 10:00:00",
+    "count": 5
+  },
+  {
+    "alert_type": "success_after_failures",
+    "severity": "high",
+    "source_ip": "203.0.113.10",
+    "event_count": 5,
+    "first_seen": "2026-01-12 10:00:00",
+    "last_seen": "2026-01-12 10:06:00",
+    "username": "admin",
+    "description": "5 failed logins followed by a success from 203.0.113.10 within 15 minutes",
+    "reasoning": "The IP had at least 3 failed logins and then a successful login inside a 15-minute window.",
+    "related_events": [
+      "Jan 12 10:00:00 host sshd[3000]: Failed password for admin from 203.0.113.10 port 52000 ssh2",
+      "Jan 12 10:01:00 host sshd[3001]: Failed password for admin from 203.0.113.10 port 52001 ssh2",
+      "Jan 12 10:02:00 host sshd[3002]: Failed password for admin from 203.0.113.10 port 52002 ssh2",
+      "Jan 12 10:03:00 host sshd[3003]: Failed password for admin from 203.0.113.10 port 52003 ssh2",
+      "Jan 12 10:04:00 host sshd[3004]: Failed password for admin from 203.0.113.10 port 52004 ssh2"
+    ],
+    "timestamp": "2026-01-12 10:00:00",
+    "count": 5
+  },
+  {
+    "alert_type": "invalid_user_enumeration",
+    "severity": "medium",
+    "source_ip": "198.51.100.20",
+    "event_count": 3,
+    "first_seen": "2026-01-12 10:20:00",
+    "last_seen": "2026-01-12 10:22:00",
+    "username": "test",
+    "description": "3 invalid username attempts from 198.51.100.20 within 10 minutes",
+    "reasoning": "The source IP repeatedly attempted usernames that do not exist, which can indicate username enumeration or account discovery activity.",
+    "related_events": [
+      "Jan 12 10:20:00 host sshd[3006]: Failed password for invalid user oracle from 198.51.100.20 port 52006 ssh2",
+      "Jan 12 10:21:00 host sshd[3007]: Failed password for invalid user backup from 198.51.100.20 port 52007 ssh2",
+      "Jan 12 10:22:00 host sshd[3008]: Failed password for invalid user test from 198.51.100.20 port 52008 ssh2"
+    ],
+    "timestamp": "2026-01-12 10:20:00",
+    "count": 3
+  },
+  {
+    "alert_type": "password_spraying",
+    "severity": "medium",
+    "source_ip": "198.51.100.30",
+    "event_count": 3,
+    "first_seen": "2026-01-12 10:30:00",
+    "last_seen": "2026-01-12 10:32:00",
+    "username": null,
+    "description": "3 usernames targeted from 198.51.100.30 within 10 minutes",
+    "reasoning": "The source IP attempted multiple usernames in a short window, which is consistent with a password spraying style pattern.",
+    "related_events": [
+      "Jan 12 10:30:00 host sshd[3009]: Failed password for alice from 198.51.100.30 port 52009 ssh2",
+      "Jan 12 10:31:00 host sshd[3010]: Failed password for bob from 198.51.100.30 port 52010 ssh2",
+      "Jan 12 10:32:00 host sshd[3011]: Failed password for carol from 198.51.100.30 port 52011 ssh2"
+    ],
+    "timestamp": "2026-01-12 10:30:00",
+    "count": 3
+  },
+  {
+    "alert_type": "root_login_attempt",
+    "severity": "low",
+    "source_ip": "192.0.2.55",
+    "event_count": 1,
+    "first_seen": "2026-01-12 10:40:00",
+    "last_seen": "2026-01-12 10:40:00",
+    "username": "root",
+    "description": "Root login attempt(s) observed from 192.0.2.55",
+    "reasoning": "Root login attempts are uncommon in many environments and can indicate targeting of privileged access.",
+    "related_events": [
+      "Jan 12 10:40:00 host sshd[3012]: Failed password for root from 192.0.2.55 port 52012 ssh2"
+    ],
+    "timestamp": "2026-01-12 10:40:00",
+    "count": 1
+  }
+]

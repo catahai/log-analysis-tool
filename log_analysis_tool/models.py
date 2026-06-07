@@ -16,6 +16,7 @@ class AuthEvent:
     username: str
     source_ip: str
     event_type: str
+    is_invalid_user: bool
     raw_message: str
 
 
@@ -32,6 +33,7 @@ class Alert:
     username: str | None
     description: str
     reasoning: str
+    related_events: list[str] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         """Serialize the alert using string timestamps for JSON and CSV output."""
@@ -39,4 +41,6 @@ class Alert:
         data = asdict(self)
         data["first_seen"] = self.first_seen.isoformat(sep=" ")
         data["last_seen"] = self.last_seen.isoformat(sep=" ")
+        data["timestamp"] = data["first_seen"]
+        data["count"] = data["event_count"]
         return data

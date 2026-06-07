@@ -59,6 +59,9 @@ def test_cli_creates_exports_and_prints_summary(tmp_path: Path) -> None:
         "success_after_failures",
     }
     assert {alert["severity"] for alert in alerts} == {"medium", "high"}
+    assert "related_events" in alerts[0]
+    assert "timestamp" in alerts[0]
+    assert "count" in alerts[0]
 
     with csv_out.open("r", encoding="utf-8", newline="") as handle:
         rows = list(csv.DictReader(handle))
@@ -138,9 +141,9 @@ def test_cli_generates_optional_report_charts(tmp_path: Path) -> None:
     )
 
     assert "Report charts:" in result.stdout
-    assert (report_dir / "alerts_by_type.svg").exists()
-    assert (report_dir / "top_offending_ips.svg").exists()
-    assert (report_dir / "failed_logins_over_time.svg").exists()
+    assert (report_dir / "alerts-by-type.svg").exists()
+    assert (report_dir / "top-offending-ips.svg").exists()
+    assert (report_dir / "failed-logins-over-time.svg").exists()
 
 
 def test_cli_accepts_custom_detection_thresholds(tmp_path: Path) -> None:
@@ -171,6 +174,46 @@ def test_cli_accepts_custom_detection_thresholds(tmp_path: Path) -> None:
             "2",
             "--success-window",
             "5",
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    assert "Total alerts           : 1" in result.stdout
+    assert "[HIGH] success_after_failures" in result.stdout
+
+
+def test_cli_loads_detection_config_file(tmp_path: Path) -> None:
+    log_file = tmp_path / "auth.log"
+    config_file = tmp_path / "config.json"
+
+    log_file.write_text(
+        "\n".join(
+            [
+                "Jan 12 10:00:00 host sshd[1000]: Failed password for admin from 10.0.0.8 port 50000 ssh2",
+                "Jan 12 10:01:00 host sshd[1001]: Failed password for admin from 10.0.0.8 port 50001 ssh2",
+                "Jan 12 10:02:00 host sshd[1002]: Accepted password for admin from 10.0.0.8 port 50002 ssh2",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    config_file.write_text(
+        '{"brute_force_threshold": 10, "success_after_failures_threshold": 2, "success_after_failures_window_minutes": 5}',
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "log_analysis_tool.main",
+            "--input",
+            str(log_file),
+            "--year",
+            "2026",
+            "--config",
+            str(config_file),
         ],
         capture_output=True,
         text=True,

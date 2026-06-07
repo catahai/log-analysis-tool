@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img">
+  <rect width="960" height="420" fill="#0f172a"/>
+  <rect x="18" y="18" width="924" height="384" rx="18" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <text x="40" y="58" fill="#f8fafc" font-family="Menlo, Consolas, monospace" font-size="28">Alerts by Type</text>
+  <text x="40" y="86" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="16">Count of generated alerts grouped by detector name</text>
+<text x="48" y="116" fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="18">brute_force</text>
+<rect x="260" y="96" width="580" height="28" rx="6" fill="#1f2937"/>
+<rect x="260" y="96" width="580" height="28" rx="6" fill="#38bdf8"/>
+<text x="860" y="116" fill="#cbd5e1" font-family="Menlo, Consolas, monospace" font-size="20">1</text>
+<text x="48" y="174" fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="18">success_after_failures</text>
+<rect x="260" y="154" width="580" height="28" rx="6" fill="#1f2937"/>
+<rect x="260" y="154" width="580" height="28" rx="6" fill="#38bdf8"/>
+<text x="860" y="174" fill="#cbd5e1" font-family="Menlo, Consolas, monospace" font-size="20">1</text>
+<text x="48" y="232" fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="18">invalid_user_enumeration</text>
+<rect x="260" y="212" width="580" height="28" rx="6" fill="#1f2937"/>
+<rect x="260" y="212" width="580" height="28" rx="6" fill="#38bdf8"/>
+<text x="860" y="232" fill="#cbd5e1" font-family="Menlo, Consolas, monospace" font-size="20">1</text>
+<text x="48" y="290" fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="18">password_spraying</text>
+<rect x="260" y="270" width="580" height="28" rx="6" fill="#1f2937"/>
+<rect x="260" y="270" width="580" height="28" rx="6" fill="#38bdf8"/>
+<text x="860" y="290" fill="#cbd5e1" font-family="Menlo, Consolas, monospace" font-size="20">1</text>
+<text x="48" y="348" fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="18">root_login_attempt</text>
+<rect x="260" y="328" width="580" height="28" rx="6" fill="#1f2937"/>
+<rect x="260" y="328" width="580" height="28" rx="6" fill="#38bdf8"/>
+<text x="860" y="348" fill="#cbd5e1" font-family="Menlo, Consolas, monospace" font-size="20">1</text>
+</svg>

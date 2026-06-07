@@ -1,0 +1,12 @@
+{
+  "brute_force_threshold": 5,
+  "brute_force_window_minutes": 10,
+  "success_after_failures_threshold": 3,
+  "success_after_failures_window_minutes": 15,
+  "invalid_user_threshold": 3,
+  "invalid_user_window_minutes": 10,
+  "password_spray_username_threshold": 3,
+  "password_spray_window_minutes": 10,
+  "root_login_threshold": 1,
+  "root_login_window_minutes": 15
+}

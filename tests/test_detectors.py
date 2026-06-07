@@ -10,13 +10,18 @@ from log_analysis_tool.models import AuthEvent, FAILED_LOGIN, SUCCESSFUL_LOGIN
 
 
 def build_event(
-    minute: int, event_type: str, ip: str = "10.0.0.8", username: str = "alice"
+    minute: int,
+    event_type: str,
+    ip: str = "10.0.0.8",
+    username: str = "alice",
+    is_invalid_user: bool = False,
 ) -> AuthEvent:
     return AuthEvent(
         timestamp=datetime(2026, 1, 12, 10, minute, 0),
         username=username,
         source_ip=ip,
         event_type=event_type,
+        is_invalid_user=is_invalid_user,
         raw_message=f"{event_type} {ip}",
     )
 
@@ -162,3 +167,41 @@ def test_run_detectors_uses_custom_config() -> None:
 
     assert len(alerts) == 1
     assert alerts[0].alert_type == "success_after_failures"
+
+
+def test_detect_invalid_user_enumeration() -> None:
+    events = [
+        build_event(0, FAILED_LOGIN, ip="10.0.0.50", username="oracle", is_invalid_user=True),
+        build_event(1, FAILED_LOGIN, ip="10.0.0.50", username="backup", is_invalid_user=True),
+        build_event(2, FAILED_LOGIN, ip="10.0.0.50", username="test", is_invalid_user=True),
+    ]
+
+    alerts = run_detectors(events, DetectionConfig())
+
+    matching_alerts = [alert for alert in alerts if alert.alert_type == "invalid_user_enumeration"]
+    assert len(matching_alerts) == 1
+    assert matching_alerts[0].severity == "medium"
+
+
+def test_detect_password_spraying() -> None:
+    events = [
+        build_event(0, FAILED_LOGIN, ip="10.0.0.60", username="alice"),
+        build_event(1, FAILED_LOGIN, ip="10.0.0.60", username="bob"),
+        build_event(2, FAILED_LOGIN, ip="10.0.0.60", username="charlie"),
+    ]
+
+    alerts = run_detectors(events, DetectionConfig())
+
+    matching_alerts = [alert for alert in alerts if alert.alert_type == "password_spraying"]
+    assert len(matching_alerts) == 1
+    assert matching_alerts[0].severity == "medium"
+
+
+def test_detect_root_login_attempt() -> None:
+    events = [build_event(0, FAILED_LOGIN, ip="10.0.0.70", username="root")]
+
+    alerts = run_detectors(events, DetectionConfig())
+
+    matching_alerts = [alert for alert in alerts if alert.alert_type == "root_login_attempt"]
+    assert len(matching_alerts) == 1
+    assert matching_alerts[0].severity == "low"

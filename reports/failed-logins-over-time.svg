@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img">
+  <rect width="960" height="420" fill="#0f172a"/>
+  <rect x="18" y="18" width="924" height="384" rx="18" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <text x="40" y="58" fill="#f8fafc" font-family="Menlo, Consolas, monospace" font-size="28">Failed Logins Over Time</text>
+  <text x="40" y="86" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="16">Count of failed SSH login events grouped by minute</text>
+<line x1="90" y1="316" x2="890" y2="316" stroke="#1f2937" stroke-width="1"/>
+<text x="74" y="321" text-anchor="end" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">0</text>
+<line x1="90" y1="96" x2="890" y2="96" stroke="#1f2937" stroke-width="1"/>
+<text x="74" y="101" text-anchor="end" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">1</text>
+  <line x1="90" y1="316" x2="890" y2="316" stroke="#475569" stroke-width="2"/>
+  <line x1="90" y1="96" x2="90" y2="316" stroke="#475569" stroke-width="2"/>
+  <polyline fill="none" stroke="#22c55e" stroke-width="4" points="90,96 162,96 235,96 308,96 380,96 453,96 526,96 599,96 671,96 744,96 817,96 890,96"/>
+<circle cx="90" cy="96" r="5" fill="#22c55e"/>
+<circle cx="162" cy="96" r="5" fill="#22c55e"/>
+<circle cx="235" cy="96" r="5" fill="#22c55e"/>
+<circle cx="308" cy="96" r="5" fill="#22c55e"/>
+<circle cx="380" cy="96" r="5" fill="#22c55e"/>
+<circle cx="453" cy="96" r="5" fill="#22c55e"/>
+<circle cx="526" cy="96" r="5" fill="#22c55e"/>
+<circle cx="599" cy="96" r="5" fill="#22c55e"/>
+<circle cx="671" cy="96" r="5" fill="#22c55e"/>
+<circle cx="744" cy="96" r="5" fill="#22c55e"/>
+<circle cx="817" cy="96" r="5" fill="#22c55e"/>
+<circle cx="890" cy="96" r="5" fill="#22c55e"/>
+<text x="90" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:00</text>
+<text x="162" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:01</text>
+<text x="235" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:02</text>
+<text x="308" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:03</text>
+<text x="380" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:04</text>
+<text x="453" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:20</text>
+<text x="526" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:21</text>
+<text x="599" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:22</text>
+<text x="671" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:30</text>
+<text x="744" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:31</text>
+<text x="817" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:32</text>
+<text x="890" y="354" text-anchor="middle" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="14">10:40</text>
+  <text x="490" y="398" text-anchor="middle" fill="#cbd5e1" font-family="Menlo, Consolas, monospace" font-size="16">Time (grouped by minute)</text>
+  <text x="30" y="78" fill="#cbd5e1" font-family="Menlo, Consolas, monospace" font-size="16">Failed logins</text>
+</svg>

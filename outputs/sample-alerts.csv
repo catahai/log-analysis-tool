@@ -1,0 +1,6 @@
+timestamp,alert_type,severity,source_ip,username,count,description,reasoning
+2026-01-12 10:00:00,brute_force,medium,203.0.113.10,admin,5,5 failed logins from 203.0.113.10 within 10 minutes,The IP reached the brute-force threshold of 5 failed logins inside a 10-minute window.
+2026-01-12 10:00:00,success_after_failures,high,203.0.113.10,admin,5,5 failed logins followed by a success from 203.0.113.10 within 15 minutes,The IP had at least 3 failed logins and then a successful login inside a 15-minute window.
+2026-01-12 10:20:00,invalid_user_enumeration,medium,198.51.100.20,test,3,3 invalid username attempts from 198.51.100.20 within 10 minutes,"The source IP repeatedly attempted usernames that do not exist, which can indicate username enumeration or account discovery activity."
+2026-01-12 10:30:00,password_spraying,medium,198.51.100.30,,3,3 usernames targeted from 198.51.100.30 within 10 minutes,"The source IP attempted multiple usernames in a short window, which is consistent with a password spraying style pattern."
+2026-01-12 10:40:00,root_login_attempt,low,192.0.2.55,root,1,Root login attempt(s) observed from 192.0.2.55,Root login attempts are uncommon in many environments and can indicate targeting of privileged access.

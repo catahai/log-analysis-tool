@@ -2,26 +2,26 @@
 
 ## Overview
 
-This document explains how to validate the Log Analysis Tool through unit tests and end-to-end CLI checks.
+This document describes how to validate the Log Analysis & Threat Detection Tool.
 
-The goals are to confirm that the tool:
+The goal is to confirm that the project:
 
-- correctly parses SSH authentication logs
-- detects brute-force activity and success-after-failures patterns
-- handles malformed input safely
-- exports accurate JSON and CSV data
-- generates the expected SVG charts when reporting is enabled
-- keeps the optional dashboard aligned with generated files
+- correctly parses supported Linux SSH authentication events
+- safely skips malformed and unsupported lines
+- triggers expected detections at the right thresholds
+- exports JSON and CSV correctly
+- generates SVG reports correctly
+- keeps the optional dashboard aligned with generated outputs
 
 ## Commands and Paths
 
-- Entry command: `python3 -m log_analysis_tool.main`
-- Module name: `log_analysis_tool`
-- Default CSV output: `output/alerts.csv`
-- Default report output: `output/report/`
-- Dashboard entry: `python3 -m flask --app log_analysis_tool.dashboard run`
+- Main CLI: `python3 -m log_analysis_tool.main`
+- Dashboard: `python3 -m log_analysis_tool.dashboard`
+- Config file: `config/detection-rules.json`
+- Sample outputs: `outputs/sample-alerts.json`, `outputs/sample-alerts.csv`
+- Sample report charts: `reports/`
 
-## Run the Automated Tests
+## Run the Test Suite
 
 ```bash
 python3 -m pytest
@@ -30,115 +30,39 @@ python3 -m pytest
 Expected result:
 
 - all tests pass
-- coverage includes parser logic, detection rules, configurable thresholds, CLI behavior, CSV export shape, chart generation, and dashboard rendering
+- coverage includes parser behavior, threshold boundaries, new detections, exports, CLI behavior, and dashboard rendering
 
-## Sample Log Files
+## Parser Validation
 
-Located in `samples/`:
+Covered by automated tests:
 
-- `normal_activity.log`
-- `suspicious_activity.log`
-- `noisy_input.log`
-- `empty.log`
+- valid failed password lines
+- valid accepted password lines
+- invalid user parsing
+- malformed line handling
+- empty file handling
 
-## CLI Validation Scenarios
+## Detection Validation
 
-### Normal Activity
+Covered by automated tests:
 
-```bash
-python3 -m log_analysis_tool.main --input samples/normal_activity.log --year 2026
-```
+- brute force threshold boundaries
+- success after failures
+- invalid username enumeration
+- multiple usernames from one IP / password spraying style activity
+- root login attempt detection
+- CLI custom threshold handling
+- optional JSON config loading
 
-Expected:
+## Manual CLI Checks
 
-- command runs successfully
-- summary is displayed
-- zero alerts or minimal alerts depending on the sample
-
-### Suspicious Activity
-
-```bash
-python3 -m log_analysis_tool.main --input samples/suspicious_activity.log --year 2026
-```
-
-Expected:
-
-- alerts are generated
-- summary includes total events, total alerts, alerts by type, alerts by severity, and top offending IPs
-- detailed alert output includes severity and reasoning
-
-### Noisy Input
-
-```bash
-python3 -m log_analysis_tool.main --input samples/noisy_input.log --year 2026
-```
-
-Expected:
-
-- malformed lines are skipped
-- valid SSH lines are still processed
-- the tool does not crash
-
-### Custom Thresholds
+### Main demo flow
 
 ```bash
 python3 -m log_analysis_tool.main \
   --input samples/suspicious_activity.log \
   --year 2026 \
-  --brute-force-threshold 5 \
-  --brute-force-window 10 \
-  --success-threshold 3 \
-  --success-window 15
-```
-
-Expected:
-
-- command runs successfully
-- rule settings are applied through the CLI without code changes
-
-## Export Validation
-
-### JSON Export
-
-```bash
-python3 -m log_analysis_tool.main \
-  --input samples/suspicious_activity.log \
-  --year 2026 \
-  --output-json output/alerts.json
-```
-
-Expected:
-
-- `output/alerts.json` is created
-- JSON is valid
-- exported alerts match terminal output
-
-### CSV Export
-
-```bash
-python3 -m log_analysis_tool.main \
-  --input samples/suspicious_activity.log \
-  --year 2026 \
-  --output-csv output/alerts.csv
-```
-
-Expected:
-
-- `output/alerts.csv` is created
-- columns are:
-
-```text
-timestamp,alert_type,severity,source_ip,username,count,description,reasoning
-```
-
-- rows match the generated alerts
-
-## Report Generation Validation
-
-```bash
-python3 -m log_analysis_tool.main \
-  --input samples/suspicious_activity.log \
-  --year 2026 \
+  --config config/detection-rules.json \
   --output-json output/alerts.json \
   --output-csv output/alerts.csv \
   --generate-report \
@@ -147,30 +71,14 @@ python3 -m log_analysis_tool.main \
 
 Expected:
 
-- `output/report/` is created
-- SVG charts generated:
+- alerts are generated
+- JSON and CSV files are created
+- charts are generated:
   - `alerts_by_type.svg`
   - `top_offending_ips.svg`
   - `failed_logins_over_time.svg`
-- terminal prints the generated chart paths
 
-## Dashboard Validation
-
-After generating CSV and charts, run:
-
-```bash
-python3 -m flask --app log_analysis_tool.dashboard run
-```
-
-Expected:
-
-- dashboard starts cleanly
-- page shows a summary section, alerts table, and available charts
-- dashboard uses the generated CSV and SVG files without a database
-
-## Error Handling Checks
-
-### Missing File
+### Missing file handling
 
 ```bash
 python3 -m log_analysis_tool.main --input samples/missing.log --year 2026
@@ -181,7 +89,7 @@ Expected:
 - clean error message
 - no traceback
 
-### Empty File
+### Empty file handling
 
 ```bash
 python3 -m log_analysis_tool.main --input samples/empty.log --year 2026
@@ -193,37 +101,49 @@ Expected:
 - `0` alerts
 - clean exit
 
-## Regression Workflow
+## Dashboard Validation
 
-After any code change:
-
-1. Run the test suite
+After generating CSV and charts:
 
 ```bash
-python3 -m pytest
+python3 -m log_analysis_tool.dashboard
 ```
 
-2. Run the main demo command
+Expected:
+
+- dashboard starts cleanly
+- summary cards render
+- alert type and severity counts render
+- top offending IPs render
+- alerts table renders
+- generated SVG charts display
+
+## Reproducing Committed Sample Artifacts
 
 ```bash
 python3 -m log_analysis_tool.main \
   --input samples/suspicious_activity.log \
   --year 2026 \
-  --output-json output/alerts.json \
-  --output-csv output/alerts.csv \
+  --config config/detection-rules.json \
+  --output-json outputs/sample-alerts.json \
+  --output-csv outputs/sample-alerts.csv \
   --generate-report \
-  --report-dir output/report
+  --report-dir reports
 ```
 
-3. Start the dashboard
+Expected:
 
-```bash
-python3 -m flask --app log_analysis_tool.dashboard run
-```
+- `outputs/sample-alerts.json`
+- `outputs/sample-alerts.csv`
+- `reports/alerts-by-type.svg`
+- `reports/top-offending-ips.svg`
+- `reports/failed-logins-over-time.svg`
 
-Verify:
+## Regression Workflow
 
-- terminal summary is correct
-- exports are correct
-- charts are generated
-- dashboard reads the generated files successfully
+After changes:
+
+1. Run `python3 -m pytest`
+2. Run the main CLI demo command
+3. Start the optional dashboard
+4. Compare generated outputs with expected sample artifacts if needed

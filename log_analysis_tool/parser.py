@@ -32,6 +32,7 @@ def parse_auth_log_line(line: str, year: int | None = None) -> AuthEvent | None:
         return None
 
     event_type = FAILED_LOGIN if failed_match else SUCCESSFUL_LOGIN
+    is_invalid_user = bool(failed_match and "invalid user " in line)
     inferred_year = year if year is not None else datetime.now().year
     timestamp = datetime.strptime(
         f"{inferred_year} {match.group('stamp')}", "%Y %b %d %H:%M:%S"
@@ -41,6 +42,7 @@ def parse_auth_log_line(line: str, year: int | None = None) -> AuthEvent | None:
         username=match.group("username"),
         source_ip=match.group("ip"),
         event_type=event_type,
+        is_invalid_user=is_invalid_user,
         raw_message=line.strip(),
     )
 

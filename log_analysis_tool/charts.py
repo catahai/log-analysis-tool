@@ -154,9 +154,9 @@ def generate_charts(
         if event.event_type == FAILED_LOGIN
     )
 
-    alert_type_chart = output_dir / "alerts_by_type.svg"
-    top_ip_chart = output_dir / "top_offending_ips.svg"
-    failed_over_time_chart = output_dir / "failed_logins_over_time.svg"
+    alert_type_chart = output_dir / "alerts-by-type.svg"
+    top_ip_chart = output_dir / "top-offending-ips.svg"
+    failed_over_time_chart = output_dir / "failed-logins-over-time.svg"
 
     _write_bar_chart(
         title="Alerts by Type",

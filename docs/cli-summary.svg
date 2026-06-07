@@ -1,32 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="720" viewBox="0 0 1000 720" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="860" viewBox="0 0 1100 860" role="img" aria-labelledby="title desc">
   <title id="title">CLI summary screenshot</title>
-  <desc id="desc">Terminal-style screenshot showing the log analysis summary for suspicious SSH activity.</desc>
-  <rect width="1000" height="720" fill="#0b1220"/>
-  <rect x="32" y="32" width="936" height="656" rx="18" fill="#111827" stroke="#334155" stroke-width="2"/>
-  <circle cx="68" cy="66" r="8" fill="#f87171"/>
-  <circle cx="92" cy="66" r="8" fill="#fbbf24"/>
-  <circle cx="116" cy="66" r="8" fill="#34d399"/>
-  <text x="144" y="72" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="20">python3 -m log_analysis_tool.main samples/suspicious_activity.log --year 2026</text>
-  <g fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="24">
-    <text x="64" y="130">Log Analysis Summary</text>
-    <text x="64" y="164">====================</text>
-    <text x="64" y="210">Total events processed : 9</text>
-    <text x="64" y="246">Failed logins          : 8</text>
-    <text x="64" y="282">Successful logins      : 1</text>
-    <text x="64" y="318">Total alerts           : 2</text>
-    <text x="64" y="378">Alerts by Type</text>
-    <text x="96" y="414">- brute_force: 1</text>
-    <text x="96" y="450">- success_after_failures: 1</text>
-    <text x="64" y="510">Alerts by Severity</text>
-    <text x="96" y="546">- medium: 1</text>
-    <text x="96" y="582">- high: 1</text>
-    <text x="560" y="378">Top Offending IPs</text>
-    <text x="592" y="414">- 203.0.113.10: 5 failed login(s)</text>
-    <text x="592" y="450">- 198.51.100.20: 3 failed login(s)</text>
-    <text x="560" y="510">Alerts</text>
-    <text x="560" y="546">[MEDIUM] brute_force ip=203.0.113.10 count=5</text>
-    <text x="560" y="582">[HIGH] success_after_failures ip=203.0.113.10</text>
-    <text x="560" y="618">JSON export: output/alerts.json</text>
-    <text x="560" y="654">CSV export: output/alerts.csv</text>
+  <desc id="desc">Terminal-style screenshot showing the sample suspicious log analysis summary.</desc>
+  <rect width="1100" height="860" fill="#0b1220"/>
+  <rect x="28" y="28" width="1044" height="804" rx="18" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <circle cx="62" cy="62" r="8" fill="#f87171"/>
+  <circle cx="86" cy="62" r="8" fill="#fbbf24"/>
+  <circle cx="110" cy="62" r="8" fill="#34d399"/>
+  <text x="138" y="68" fill="#94a3b8" font-family="Menlo, Consolas, monospace" font-size="18">python3 -m log_analysis_tool.main --input samples/suspicious_activity.log --year 2026 --config config/detection-rules.json</text>
+  <g fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="22">
+    <text x="56" y="122">Log Analysis Summary</text>
+    <text x="56" y="154">====================</text>
+    <text x="56" y="196">Total events processed : 13</text>
+    <text x="56" y="228">Failed logins          : 12</text>
+    <text x="56" y="260">Successful logins      : 1</text>
+    <text x="56" y="292">Total alerts           : 5</text>
+    <text x="56" y="344">Alerts by Type</text>
+    <text x="88" y="376">- brute_force: 1</text>
+    <text x="88" y="408">- success_after_failures: 1</text>
+    <text x="88" y="440">- invalid_user_enumeration: 1</text>
+    <text x="88" y="472">- password_spraying: 1</text>
+    <text x="88" y="504">- root_login_attempt: 1</text>
+    <text x="56" y="556">Alerts by Severity</text>
+    <text x="88" y="588">- medium: 3</text>
+    <text x="88" y="620">- high: 1</text>
+    <text x="88" y="652">- low: 1</text>
+    <text x="600" y="344">Top Offending IPs</text>
+    <text x="632" y="376">- 203.0.113.10: 5 failed login(s)</text>
+    <text x="632" y="408">- 198.51.100.20: 3 failed login(s)</text>
+    <text x="632" y="440">- 198.51.100.30: 3 failed login(s)</text>
+    <text x="600" y="500">Alert Highlights</text>
+    <text x="632" y="532">[HIGH] success_after_failures on 203.0.113.10</text>
+    <text x="632" y="564">[MEDIUM] invalid_user_enumeration on 198.51.100.20</text>
+    <text x="632" y="596">[MEDIUM] password_spraying on 198.51.100.30</text>
+    <text x="632" y="628">[LOW] root_login_attempt on 192.0.2.55</text>
+    <text x="56" y="732">JSON export: outputs/sample-alerts.json</text>
+    <text x="56" y="764">CSV export: outputs/sample-alerts.csv</text>
+    <text x="56" y="796">Report charts: reports/alerts-by-type.svg, reports/top-offending-ips.svg, reports/failed-logins-over-time.svg</text>
   </g>
 </svg>

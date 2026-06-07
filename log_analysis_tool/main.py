@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from json import JSONDecodeError
 from pathlib import Path
 import sys
 
@@ -42,12 +43,29 @@ def _resolve_input_path(args) -> Path | None:
 def _build_detection_config(args) -> DetectionConfig:
     """Create detector configuration from CLI arguments."""
 
-    return DetectionConfig(
-        brute_force_threshold=args.brute_force_threshold,
-        brute_force_window_minutes=args.brute_force_window,
-        success_after_failures_threshold=args.success_threshold,
-        success_after_failures_window_minutes=args.success_window,
+    config = (
+        DetectionConfig.from_json_file(args.config)
+        if args.config is not None
+        else DetectionConfig()
     )
+
+    overrides = {
+        "brute_force_threshold": args.brute_force_threshold,
+        "brute_force_window_minutes": args.brute_force_window,
+        "success_after_failures_threshold": args.success_threshold,
+        "success_after_failures_window_minutes": args.success_window,
+        "invalid_user_threshold": args.invalid_user_threshold,
+        "invalid_user_window_minutes": args.invalid_user_window,
+        "password_spray_username_threshold": args.spray_username_threshold,
+        "password_spray_window_minutes": args.spray_window,
+        "root_login_threshold": args.root_attempt_threshold,
+        "root_login_window_minutes": args.root_attempt_window,
+    }
+    config_data = config.__dict__.copy()
+    for key, value in overrides.items():
+        if value is not None:
+            config_data[key] = value
+    return DetectionConfig(**config_data)
 
 
 def _print_summary(events: list[AuthEvent], alerts: list[Alert]) -> None:
@@ -101,7 +119,7 @@ def main() -> int:
         export_alerts_to_json(alerts, args.json_out)
         export_alerts_to_csv(alerts, args.csv_out)
         chart_paths = generate_charts(alerts, events, args.report_dir) if args.generate_report else []
-    except OSError as exc:
+    except (OSError, JSONDecodeError, TypeError, ValueError) as exc:
         print(f"File error: {exc}", file=sys.stderr)
         return 1
 

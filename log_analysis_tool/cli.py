@@ -55,27 +55,69 @@ def build_parser() -> argparse.ArgumentParser:
         help="Directory for generated chart files",
     )
     parser.add_argument(
+        "--config",
+        type=Path,
+        default=None,
+        help="Optional JSON file containing detection rule settings",
+    )
+    parser.add_argument(
         "--brute-force-threshold",
         type=int,
-        default=5,
+        default=None,
         help="Failed login count required to trigger the brute-force rule",
     )
     parser.add_argument(
         "--brute-force-window",
         type=int,
-        default=10,
+        default=None,
         help="Time window in minutes for the brute-force rule",
     )
     parser.add_argument(
         "--success-threshold",
         type=int,
-        default=3,
+        default=None,
         help="Failed login count required before a success triggers the follow-on rule",
     )
     parser.add_argument(
         "--success-window",
         type=int,
-        default=15,
+        default=None,
         help="Time window in minutes for the success-after-failures rule",
+    )
+    parser.add_argument(
+        "--invalid-user-threshold",
+        type=int,
+        default=None,
+        help="Invalid username attempts required to trigger enumeration detection",
+    )
+    parser.add_argument(
+        "--invalid-user-window",
+        type=int,
+        default=None,
+        help="Time window in minutes for invalid username enumeration detection",
+    )
+    parser.add_argument(
+        "--spray-username-threshold",
+        type=int,
+        default=None,
+        help="Distinct usernames from one IP required to trigger password spraying detection",
+    )
+    parser.add_argument(
+        "--spray-window",
+        type=int,
+        default=None,
+        help="Time window in minutes for password spraying detection",
+    )
+    parser.add_argument(
+        "--root-attempt-threshold",
+        type=int,
+        default=None,
+        help="Root login attempts required to trigger root login detection",
+    )
+    parser.add_argument(
+        "--root-attempt-window",
+        type=int,
+        default=None,
+        help="Time window in minutes for root login attempt detection",
     )
     return parser

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import csv
 from collections import Counter
 from pathlib import Path
@@ -31,6 +32,13 @@ def create_app(
     def index() -> str:
         alert_rows = _load_alert_rows(alerts_csv)
         severity_counts = Counter(row["severity"] for row in alert_rows)
+        alert_type_counts = Counter(row["alert_type"] for row in alert_rows)
+        top_offending_ips = Counter()
+        for row in alert_rows:
+            try:
+                top_offending_ips[row["source_ip"]] += int(row["count"])
+            except (KeyError, ValueError):
+                continue
         ordered_severities = [
             (severity, severity_counts[severity])
             for severity in ["high", "medium", "low"]
@@ -44,9 +52,9 @@ def create_app(
         chart_names = [
             name
             for name in [
-                "alerts_by_type.svg",
-                "top_offending_ips.svg",
-                "failed_logins_over_time.svg",
+                "alerts-by-type.svg",
+                "top-offending-ips.svg",
+                "failed-logins-over-time.svg",
             ]
             if (chart_dir / name).exists()
         ]
@@ -54,6 +62,8 @@ def create_app(
             "dashboard.html",
             total_alerts=len(alert_rows),
             severity_counts=ordered_severities,
+            alert_type_counts=alert_type_counts.most_common(),
+            top_offending_ips=top_offending_ips.most_common(5),
             alerts=alert_rows,
             charts=chart_names,
         )
@@ -69,3 +79,28 @@ def create_app(
 
 
 app = create_app()
+
+
+def main() -> None:
+    """Run the dashboard directly for local review."""
+
+    parser = argparse.ArgumentParser(description="Run the Log Analysis Tool dashboard.")
+    parser.add_argument("--csv", default="output/alerts.csv", help="Path to the alerts CSV file")
+    parser.add_argument(
+        "--report-dir",
+        default="output/report",
+        help="Directory containing generated SVG chart files",
+    )
+    parser.add_argument("--host", default="127.0.0.1", help="Host to bind the Flask server to")
+    parser.add_argument("--port", type=int, default=5000, help="Port for the Flask server")
+    args = parser.parse_args()
+
+    create_app(csv_path=args.csv, report_dir=args.report_dir).run(
+        host=args.host,
+        port=args.port,
+        debug=False,
+    )
+
+
+if __name__ == "__main__":
+    main()
